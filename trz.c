@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include <stdbool.h>
+#include <assert.h>
 
 typedef enum{
     get_min,
@@ -36,9 +37,9 @@ int invalid_type(int i) {
 
 int main() {
     int n;
-    scanf("%d", &n);
-    int* types = (int*) malloc(n * sizeof(int));
-    int* distances = (int*) malloc(n * sizeof(int));
+    assert(scanf("%d", &n) == 1);
+    int* types = (int*) malloc(((size_t) n) * sizeof(int));
+    int* distances = (int*) malloc(((size_t) n) * sizeof(int));
 
     // pierwsza wpolrzedna definiuje typ z dp, czy chcemy min czy max, druga typ hotelu, indeks oznacza odpowiednio min/max odl do hotelu zadanego typu na lewo/prawo
     // pytamy sie o odleglosc do hotelu na lewo, typ x nie wplywa na l[i][j][k]
@@ -47,8 +48,8 @@ int main() {
 
     for(int i = 0; i < 2; ++i) {
         for(int j = 0; j < 3; ++j) {
-            l[i][j] = (int*) malloc(n * sizeof(int));
-            r[i][j] = (int*) malloc(n * sizeof(int));
+            l[i][j] = (int*) malloc(((size_t) n) * sizeof(int));
+            r[i][j] = (int*) malloc(((size_t) n) * sizeof(int));
 
             l[i][j][0] = invalid_type(i);
             r[i][j][n - 1] = invalid_type(i);
@@ -56,7 +57,7 @@ int main() {
     }
 
     for(int i = 0; i < n; ++i) {
-        scanf("%d %d", &types[i], &distances[i]);
+        assert(scanf("%d %d", &types[i], &distances[i]) == 2);
         types[i]--;
     }
 
@@ -112,6 +113,10 @@ int main() {
                 }
             }
         }
+    }
+
+    if(ans_max == -1) {
+        ans_min = ans_max = 0;
     }
 
     printf("%d %d\n", ans_min, ans_max);
