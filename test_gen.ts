@@ -7,7 +7,7 @@ for(let i = 0; i < 1000; ++i) {
     let prev = 0;
     for(let j = 0; j < n; ++j) {
         let next = prev + Math.floor(Math.random() * 1000 + 1);
-        output += `${Math.floor(Math.random() * 3 + 1)} ${next}\n`;
+        output += `${Math.floor((Math.random() * n / 3) + 1)} ${next}\n`;
         prev = next; 
     }
     fs.writeFile(`./tests/trz_${i}.in`, output);
